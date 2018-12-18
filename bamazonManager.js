@@ -154,7 +154,7 @@ function updateProduct(toBuy, item_info) {
         function (err, res) {
             console.log(res.affectedRows + " item changed! You just added "+toBuy+" " + item_name +" for a total stock of: "+ newStock + "!\n");
             // Invoke start function to begin POST or BID process all over again
-                 bamazon();
+            bamazon();
         }
     );
 }
@@ -194,7 +194,7 @@ function addToInventory() {
             })
         });
     });
-       
+
     //    console.log(readProducts());
 
 

@@ -136,6 +136,7 @@ function displayItems() {
                 //                console.log(selectedItemQuantity);
                 if(toBuy>selectedItemQuantity){
                     console.log("Insufficent quantity!")
+                    displayItems();
                 }else{
                     var numBought = selectedItemQuantity - toBuy;
                     updateProduct(toBuy, numBought,itemInfo[items.indexOf(selectedItem)]);
