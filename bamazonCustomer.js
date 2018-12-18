@@ -62,50 +62,51 @@ function readProducts(cb) {
     });
 }
 
-// Function to post item
-function postItem() {
-    inquirer
-        .prompt([
-        {
-            type: "input",
-            message: "What is the item you would like to submit?",
-            name: "postItem"
-        },
-        {
-            type: "input",
-            message: "What category would you like to place your item into?",
-            name: "category"
-        },
-        {
-            type: "input",
-            message: "What would you like the starting bid to be?",
-            name: "startingBid"
-        }
-    ])
-        .then(function (answer) {
-        var query = connection.query(
-            "INSERT INTO items SET ?",
-            {
-                item_name: answer.postItem,
-                category: answer.category,
-                starting_bid: answer.startingBid,
-                current_bid: answer.startingBid
-            },
-            function (err, res) {
-                console.log(res.affectedRows + " item inserted!\n");
-                // Call postOrBid AFTER the INSERT completes to start
-                postOrBid();
-            }
-        );
-    });
-}
+//// Function to post item
+//function postItem() {
+//    inquirer
+//        .prompt([
+//        {
+//            type: "input",
+//            message: "What is the item you would like to submit?",
+//            name: "postItem"
+//        },
+//        {
+//            type: "input",
+//            message: "What category would you like to place your item into?",
+//            name: "category"
+//        },
+//        {
+//            type: "input",
+//            message: "What would you like the starting bid to be?",
+//            name: "startingBid"
+//        }
+//    ])
+//        .then(function (answer) {
+//        var query = connection.query(
+//            "INSERT INTO items SET ?",
+//            {
+//                item_name: answer.postItem,
+//                category: answer.category,
+//                starting_bid: answer.startingBid,
+//                current_bid: answer.startingBid
+//            },
+//            function (err, res) {
+//                console.log(res.affectedRows + " item inserted!\n");
+//                // Call postOrBid AFTER the INSERT completes to start
+//                postOrBid();
+//            }
+//        );
+//    });
+//}
 //display Items
 function displayItems() {
     readProducts(function(itemInfo){
 
-         console.log(itemInfo);
+        console.log("Welcome to Michael's goods that are 100% not bought from Amazon!");
         var items = [];
         for (i = 0; i < itemInfo.length; i++) {
+            console.log("Product ID: " + itemInfo[i].item_id + "\n Product Name: " + itemInfo[i].product_name + "\n Price: " + itemInfo[i].price + "\n Quantity: " + itemInfo[i].stock_quantity + "\n -----------------------")
             items.push(itemInfo[i].product_name);
         };
         inquirer.prompt([
@@ -130,9 +131,9 @@ function displayItems() {
             ])
                 .then(function (res) {
                 var toBuy = res.units;
-//                console.log(selectedItem);
-//                console.log(toBuy);
-//                console.log(selectedItemQuantity);
+                //                console.log(selectedItem);
+                //                console.log(toBuy);
+                //                console.log(selectedItemQuantity);
                 if(toBuy>selectedItemQuantity){
                     console.log("Insufficent quantity!")
                 }else{
@@ -157,16 +158,8 @@ function updateProduct(toBuy, numBought, item_info) {
         function (err, res) {
             console.log(res.affectedRows + " order placed! You just bought "+toBuy+" " + item_name +" for a total of "+ item_price + "!\n");
             // Invoke start function to begin POST or BID process all over again
+            connection.end();
         }
     );
 }
 
-//EXTRAS:
-// Once your group has put together the basic application, it's time to test your collective skills on some additional functionality, or "addons". 
-// Remember to take into consideration the amount of time you have been given when choosing what addons you would like to tackle.
-
-// Create a sign up and login system that prompts users for a username and password upon loading up the app. Do not worry about setting up a truly secure database if you choose to tackle this addon. Just worry about building working sign up and login features.   
-
-
-
-// Create a system on the "POST AN ITEM" which allows users to look at the auctions they have created. On this screen they can add new auctions, modify previous auctions, or close bidding on an auction.
